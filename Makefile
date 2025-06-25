@@ -9,4 +9,14 @@ rec:
 calc:
 	@go build -o bin/calculator ./distance_calculator
 	@./bin/calculator
-.PHONY: obu
+
+agg:
+	@go build -o bin/aggregator ./aggregator
+	@./bin/aggregator
+
+inv:
+	@go build -o bin/invoicer ./invoicer
+	@./bin/invoicer
+
+
+.PHONY: obu, inv
