@@ -3,13 +3,18 @@ package main
 import (
 	"fmt"
 	"log"
+
+	"github.com/vsespontanno/calculate-toll/aggregator/client"
 )
 
 //type DistanceCalculator struct {
 //	consumer DataConsumer
 //}
 
-const kafkaTopic = "obudata"
+const (
+	kafkaTopic         = "obudata"
+	aggregatorEndpoint = "http://localhost:8080"
+)
 
 func main() {
 	var (
@@ -18,7 +23,8 @@ func main() {
 	)
 	svc = NewCalculatorService()
 	svc = NewLogMiddleware(svc)
-	kafkaConsumer, err := NewKafkaConsumer(kafkaTopic, svc)
+
+	kafkaConsumer, err := NewKafkaConsumer(kafkaTopic, svc, client.NewClient(aggregatorEndpoint))
 	if err != nil {
 		log.Fatal(err)
 	}
