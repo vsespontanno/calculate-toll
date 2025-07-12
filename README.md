@@ -48,6 +48,7 @@ Toll Calculator — это система на основе микросерви
 sudo apt install -y protobuf-compiler
 go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6
 ```
 
 #### Для macOS (через Homebrew)
@@ -56,6 +57,7 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
 brew install protobuf
 go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6
 ```
 
 #### Настройка PATH
@@ -73,6 +75,7 @@ export PATH="${PATH}:${HOME}/go/bin"
 ```bash
 go get google.golang.org/protobuf
 go get google.golang.org/grpc
+
 ```
 
 ## Инструкции по установке
@@ -84,7 +87,7 @@ go get google.golang.org/grpc
    cd toll-calculator
    ```
 
-2. **Настройте Kafka и Zookeeper**:
+2. **Настройте Kafka + Zookeeper и Prometheus**:
 
    Используйте файл `docker-compose.yml` для запуска Kafka и Zookeeper:
 
@@ -96,8 +99,17 @@ go get google.golang.org/grpc
 
    Альтернативно, для быстрого запуска Kafka без Zookeeper можно использовать:
 
+
+
    ```bash
    docker run --name kafka -p 9092:9092 -e ALLOW_PLAINTEXT_LISTENER=yes -e KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true bitnami/kafka:latest
+   ```
+
+
+   Для запуска Prometheus в контейнере:
+
+   ```
+   docker run --name prometheus -d -p 127.0.0.1:9090:9090 -v $(pwd)/.config/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
    ```
 
 3. **Сгенерируйте Protobuf-код** (при необходимости):
